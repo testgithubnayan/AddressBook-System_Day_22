@@ -8,18 +8,27 @@ public class AddressBook {
 
 	static HashMap<String, ArrayList<ContactPerson>> AllAddresssBookLIst = new HashMap<>();
 	static ArrayList<ContactPerson> UsedAddressBook;
+
+	static HashMap<String, ArrayList<ContactPerson>> CityContactsArrayList = new HashMap<>();
+	static HashMap<String, ArrayList<ContactPerson>> StateContactArrayList = new HashMap<>();
+	static String UsedAddressBookName;
+
+	static Scanner sc = new Scanner(System.in);
+
+
 	
 	static String UsedAddressBookName;
 
 	static Scanner sc = new Scanner(System.in);
-/*
+
 	 * Java HashMap contains values based on the key. Java HashMap contains only
 	 * unique keys. Java HashMap may have one null key and multiple null values.
 	 * Java HashMap is non synchronized. Java HashMap maintains no order. The
 	 * initial default capacity of Java HashMap class is 16 with a load factor of
 	 * 0.75
 	 */
-	
+
+
 	void welcomeMassage() {
 
 		int i, j, row = 6;
@@ -208,6 +217,84 @@ public class AddressBook {
 		}
 	}
 
+
+	/*
+	 * Java HashMap class implements the Map interface which allows us to store key
+	 * and value pair, where keys should be unique. If you try to insert the
+	 * duplicate key, it will replace the element of the corresponding key. It is
+	 * easy to perform operations using the key index like updation, deletion, etc.
+	 * HashMap class is found in the java.util package.
+	 */
+
+	public void CityAndStateContactArrayListPreparedForCallingLikeInitialization() {
+		for (String key : AllAddresssBookLIst.keySet()) {
+			for (ContactPerson person : AllAddresssBookLIst.get(key)) {
+				String city = person.getCity();
+				if (CityContactsArrayList.containsKey(city)) {
+					CityContactsArrayList.get(city).add(person);
+				} else {
+					ArrayList<ContactPerson> list = new ArrayList<>();
+					list.add(person);
+					CityContactsArrayList.put(city, list);
+				}
+
+				String state = person.getState();
+				if (StateContactArrayList.containsKey(state)) {
+					StateContactArrayList.get(state).add(person);
+				} else {
+					ArrayList<ContactPerson> list = new ArrayList<>();
+					list.add(person);
+					StateContactArrayList.put(state, list);
+				}
+			}
+		}
+	}
+
+	void viewContacts() {
+		CityAndStateContactArrayListPreparedForCallingLikeInitialization();
+		System.out.println("\n1.VIEW BY CITY \n2.VIEW BY STATE");
+		switch (sc.nextInt()) {
+		case 1:
+			viewContactByCity();
+			break;
+		case 2:
+			viewContactByState();
+			break;
+		default:
+			viewContacts();
+			break;
+		}
+	}
+
+	void displayingTheContactByCity() {
+		System.out.println("Enter City:");
+		String city = sc.next();
+		for (String key : CityContactsArrayList.keySet()) {
+			if (key.equals(city)) {
+				CityContactsArrayList.get(key).forEach(person -> System.out.println(person));
+			}
+		}
+	}
+
+	void displayingTheContactByState() {
+		System.out.println("Enter State:");
+		String state = sc.next();
+		for (String key : StateContactArrayList.keySet()) {
+			if (key.equals(state)) {
+				StateContactArrayList.get(state).forEach(person -> System.out.println(person));
+			}
+		}
+	}
+
+	public void addMultipleContacts() {
+		System.out.println(" YES ENTER  THE MULTIPLE CONTACTS: ");
+        
+		ContactPerson contactPerson = createContact();
+		UsedAddressBook.add(contactPerson);
+		System.out.println(contactPerson);
+		System.out.println("Contact added successfully");
+	}
+
 	
 	    public void addMultipleContacts() {
 			System.out.println(" YES ENTER  THE MULTIPLE CONTACTS: ");
@@ -216,6 +303,7 @@ public class AddressBook {
 			System.out.println(contactPerson);
 			System.out.println("Contact added successfully");
 		}
+
 }
 
 
