@@ -11,6 +11,8 @@ public class AddressBook {
 	static HashMap<String, ArrayList<ContactPerson>> CityContactsArrayList = new HashMap<>();
 	static HashMap<String, ArrayList<ContactPerson>> StateContactArrayList = new HashMap<>();
 	static ArrayList<ContactPerson> UsedAddressBook;
+	ArrayList<ContactPerson> allContacts = AllContacts();
+	ArrayList<ContactPerson> allsortedContacts;
 	static String UsedAddressBookName;
 
 	static Scanner sc = new Scanner(System.in);
@@ -44,7 +46,7 @@ public class AddressBook {
 	}
 
 	ContactPerson createContact() {
-	//	ContactPerson sp = new ContactPerson();
+		ContactPerson sp = new ContactPerson();
 		System.out.println("Enter first name: ");
 		String firstName = sc.next();
 		System.out.println("Enter last name: ");
@@ -62,8 +64,8 @@ public class AddressBook {
 		System.out.println("Enter Email: ");
 		String email = sc.next();
 		System.out.println("created new contact");
-
-		ContactPerson person = new ContactPerson();
+		ContactPerson person = new ContactPerson(firstName, lastName, address, city, state, zipCode, phoneNumber,
+				email);
 		System.out.println(person);
 		return person;
 	}
@@ -107,13 +109,13 @@ public class AddressBook {
 	}
 
 	void deleteContact() {
-		boolean IfontactFound = false;
+		boolean contactFound = false;
 		System.out.println("ENTER NAME TO DELETE THE  CONTACT: ");
 		String name = sc.next();
 		for (ContactPerson contact : UsedAddressBook) {
 			if (contact.getFirstName().equals(name)) {
 				System.out.println("CONTACT FOUND:");
-				IfontactFound = true;
+				contactFound = true;
 				System.out.println(contact);
 				System.out.println("PLEASE CONFUIRME ONCE MORE DO U REALLY WANT TO DELETE TYPE Y FOR YES OTHERWISE N ");
 				if (sc.next().equals("y")) {
@@ -123,7 +125,7 @@ public class AddressBook {
 				break;
 			}
 		}
-		if (!IfontactFound) {
+		if (!contactFound) {
 			System.out.println("SORRY USER... CONTACT NOT FOUND");
 		}
 	}
@@ -289,21 +291,19 @@ public class AddressBook {
 	}
 
 	void sortContact() {
-		List<ContactPerson> allContacts = getAllContacts();
-		List<ContactPerson> sortedContacts;
-
+		ArrayList<ContactPerson> allContacts = AllContacts();
 		System.out.println("The Contacts Are Sorted Now By Names:-> ");
-		sortedContacts = allContacts.stream().sorted((x, y) -> x.getFirstName().compareTo(y.getFirstName()))
-				.collect(Collectors.toList());
-		sortedContacts.forEach(x -> System.out.println(x));
+		allsortedContacts = (ArrayList<ContactPerson>) allContacts.stream()
+				.sorted((x, y) -> x.getFirstName().compareTo(y.getFirstName())).collect(Collectors.toList());
+		allsortedContacts.forEach(x -> System.out.println(x));
 	}
 
-	List<ContactPerson> getAllContacts() {
-		List<ContactPerson> contacts = new ArrayList<>();
+	ArrayList<ContactPerson> AllContacts() {
+		ArrayList<ContactPerson> contacts = new ArrayList<>();
 		for (String key : AllAddresssBookLIst.keySet()) {
 			contacts.addAll(AllAddresssBookLIst.get(key));
 		}
-		return contacts;
+		return (ArrayList<ContactPerson>) contacts;
 	}
 
 	public void addMultipleContacts() {
