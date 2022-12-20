@@ -1,15 +1,20 @@
-package com.bridgelabz;
+package com.brigelabz;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class AddressBook {
-
 	static HashMap<String, ArrayList<ContactPerson>> AllAddresssBookLIst = new HashMap<>();
 	static HashMap<String, ArrayList<ContactPerson>> CityContactsArrayList = new HashMap<>();
 	static HashMap<String, ArrayList<ContactPerson>> StateContactArrayList = new HashMap<>();
 	static ArrayList<ContactPerson> UsedAddressBook;
+
+	ArrayList<ContactPerson> allContacts = AllContacts();
+	ArrayList<ContactPerson> allsortedContacts;
+
 	static String UsedAddressBookName;
 
 	static Scanner sc = new Scanner(System.in);
@@ -61,7 +66,6 @@ public class AddressBook {
 		System.out.println("Enter Email: ");
 		String email = sc.next();
 		System.out.println("created new contact");
-
 		ContactPerson person = new ContactPerson(firstName, lastName, address, city, state, zipCode, phoneNumber,
 				email);
 		System.out.println(person);
@@ -94,7 +98,7 @@ public class AddressBook {
 				System.out.println("Enter state: ");
 				person.setState(sc.next());
 				System.out.println("Enter ZipCode:");
-				person.setZipCode(sc.nextInt());
+				person.setZip(sc.nextInt());
 				System.out.println("Enter phoneNumber: ");
 				person.setPhoneNumber(sc.nextLong());
 				System.out.println("Enter Email: ");
@@ -107,13 +111,13 @@ public class AddressBook {
 	}
 
 	void deleteContact() {
-		boolean IfontactFound = false;
+		boolean contactFound = false;
 		System.out.println("ENTER NAME TO DELETE THE  CONTACT: ");
 		String name = sc.next();
 		for (ContactPerson contact : UsedAddressBook) {
 			if (contact.getFirstName().equals(name)) {
 				System.out.println("CONTACT FOUND:");
-				IfontactFound = true;
+				contactFound = true;
 				System.out.println(contact);
 				System.out.println("PLEASE CONFUIRME ONCE MORE DO U REALLY WANT TO DELETE TYPE Y FOR YES OTHERWISE N ");
 				if (sc.next().equals("y")) {
@@ -123,7 +127,7 @@ public class AddressBook {
 				break;
 			}
 		}
-		if (!IfontactFound) {
+		if (!contactFound) {
 			System.out.println("SORRY USER... CONTACT NOT FOUND");
 		}
 	}
@@ -234,9 +238,9 @@ public class AddressBook {
 				String city = person.getCity();
 				if (CityContactsArrayList.containsKey(city)) {
 					System.out.println(person);
-					} else {
 
-					System.out.println("NOT FOUND!!!!!");
+				} else{
+        System.out.println("NOT FOUND!!!!!");
 				}
 
 				String state = person.getState();
@@ -287,11 +291,36 @@ public class AddressBook {
 		}
 	}
 
+
 	public void addMultipleContacts() {
 		System.out.println("NOTE :-> \"THIS CONTACT WHICH YOU CREATED IS  WILL BE ADDED CURENT ADDRESS BOOK\"");
 		System.out.println(" YES ENTER  THE CONTACTS: ");
 		ContactPerson contactPerson = createContact();
 		UsedAddressBook.add(contactPerson);
+
+
+	void sortContact() {
+		ArrayList<ContactPerson> allContacts = AllContacts();
+		System.out.println("The Contacts Are Sorted Now By Names:-> ");
+		allsortedContacts = (ArrayList<ContactPerson>) allContacts.stream()
+				.sorted((x, y) -> x.getFirstName().compareTo(y.getFirstName())).collect(Collectors.toList());
+		allsortedContacts.forEach(x -> System.out.println(x));
+	}
+
+	ArrayList<ContactPerson> AllContacts() {
+		ArrayList<ContactPerson> contacts = new ArrayList<>();
+		for (String key : AllAddresssBookLIst.keySet()) {
+			contacts.addAll(AllAddresssBookLIst.get(key));
+		}
+		return (ArrayList<ContactPerson>) contacts;
+	}
+
+	public void addMultipleContacts() {
+		System.out.println("NOTE :-> \"THIS CONTACT WHICH YOU CREATED IS  WILL BE ADDED CURENT ADDRESS BOOK\"");
+		System.out.println(" YES ENTER  THE CONTACTS: ");
+		ContactPerson contactPerson = createContact();
+		UsedAddressBook.add(contactPerson);
+
 
 		System.out.println(" YES!!!! CONTACT ADDED SUCCESSFULLY");
 	}
