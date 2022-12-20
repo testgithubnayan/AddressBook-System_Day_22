@@ -11,8 +11,10 @@ public class AddressBook {
 	static HashMap<String, ArrayList<ContactPerson>> CityContactsArrayList = new HashMap<>();
 	static HashMap<String, ArrayList<ContactPerson>> StateContactArrayList = new HashMap<>();
 	static ArrayList<ContactPerson> UsedAddressBook;
+
 	ArrayList<ContactPerson> allContacts = AllContacts();
 	ArrayList<ContactPerson> allsortedContacts;
+
 	static String UsedAddressBookName;
 
 	static Scanner sc = new Scanner(System.in);
@@ -159,8 +161,7 @@ public class AddressBook {
 				UsedAddressBookName = key;
 			}
 		}
-		System.out
-				.println("NOTE:-IF THE VALUE IS NULL BEACAUSE WHEATHER YOU NOT SELECTED THE ADDRESSBOOK OR NOR CREATD");
+		System.out.println("NOTE:-IF THE VALUE IS NULL BEACAUSE WHEATHER YOU NOT SELECTED THE ADDRESSBOOK OR NOR CREATD");
 		System.out.println("THE CUREENTLY USED ADDRESSBOOK IS:-> " + UsedAddressBookName);
 	}
 
@@ -237,9 +238,9 @@ public class AddressBook {
 				String city = person.getCity();
 				if (CityContactsArrayList.containsKey(city)) {
 					System.out.println(person);
-				} else {
 
-					System.out.println("NOT FOUND!!!!!");
+				} else{
+        System.out.println("NOT FOUND!!!!!");
 				}
 
 				String state = person.getState();
@@ -290,6 +291,14 @@ public class AddressBook {
 		}
 	}
 
+
+	public void addMultipleContacts() {
+		System.out.println("NOTE :-> \"THIS CONTACT WHICH YOU CREATED IS  WILL BE ADDED CURENT ADDRESS BOOK\"");
+		System.out.println(" YES ENTER  THE CONTACTS: ");
+		ContactPerson contactPerson = createContact();
+		UsedAddressBook.add(contactPerson);
+
+
 	void sortContact() {
 		ArrayList<ContactPerson> allContacts = AllContacts();
 		System.out.println("The Contacts Are Sorted Now By Names:-> ");
@@ -311,6 +320,7 @@ public class AddressBook {
 		System.out.println(" YES ENTER  THE CONTACTS: ");
 		ContactPerson contactPerson = createContact();
 		UsedAddressBook.add(contactPerson);
+
 
 		System.out.println(" YES!!!! CONTACT ADDED SUCCESSFULLY");
 	}
