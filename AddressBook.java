@@ -11,10 +11,8 @@ public class AddressBook {
 	static HashMap<String, ArrayList<ContactPerson>> CityContactsArrayList = new HashMap<>();
 	static HashMap<String, ArrayList<ContactPerson>> StateContactArrayList = new HashMap<>();
 	static ArrayList<ContactPerson> UsedAddressBook;
-
 	ArrayList<ContactPerson> allContacts = AllContacts();
 	ArrayList<ContactPerson> allsortedContacts;
-
 	static String UsedAddressBookName;
 
 	static Scanner sc = new Scanner(System.in);
@@ -161,7 +159,8 @@ public class AddressBook {
 				UsedAddressBookName = key;
 			}
 		}
-		System.out.println("NOTE:-IF THE VALUE IS NULL BEACAUSE WHEATHER YOU NOT SELECTED THE ADDRESSBOOK OR NOR CREATD");
+		System.out
+				.println("NOTE:-IF THE VALUE IS NULL BEACAUSE WHEATHER YOU NOT SELECTED THE ADDRESSBOOK OR NOR CREATD");
 		System.out.println("THE CUREENTLY USED ADDRESSBOOK IS:-> " + UsedAddressBookName);
 	}
 
@@ -238,9 +237,9 @@ public class AddressBook {
 				String city = person.getCity();
 				if (CityContactsArrayList.containsKey(city)) {
 					System.out.println(person);
+				} else {
 
-				} else{
-        System.out.println("NOT FOUND!!!!!");
+					System.out.println("NOT FOUND!!!!!");
 				}
 
 				String state = person.getState();
@@ -291,15 +290,7 @@ public class AddressBook {
 		}
 	}
 
-
-	public void addMultipleContacts() {
-		System.out.println("NOTE :-> \"THIS CONTACT WHICH YOU CREATED IS  WILL BE ADDED CURENT ADDRESS BOOK\"");
-		System.out.println(" YES ENTER  THE CONTACTS: ");
-		ContactPerson contactPerson = createContact();
-		UsedAddressBook.add(contactPerson);
-
-
-	void sortContact() {
+	void sortContactByName() {
 		ArrayList<ContactPerson> allContacts = AllContacts();
 		System.out.println("The Contacts Are Sorted Now By Names:-> ");
 		allsortedContacts = (ArrayList<ContactPerson>) allContacts.stream()
@@ -321,7 +312,49 @@ public class AddressBook {
 		ContactPerson contactPerson = createContact();
 		UsedAddressBook.add(contactPerson);
 
-
 		System.out.println(" YES!!!! CONTACT ADDED SUCCESSFULLY");
 	}
+	//Sorting By Choice ....
+	void sortContact1() {
+		List<ContactPerson> allContacts = getAllContacts();
+		List<ContactPerson> sortedContacts;
+
+		System.out.println("1.Sort By Name \n2.Sort By City \n3.Sort By State \n4.Sort By Zipcode \n5.Go previous");
+		switch (sc.nextInt()) {
+		case 1:
+			sortedContacts = allContacts.stream().sorted((x, y) -> x.getFirstName().compareTo(y.getFirstName()))
+					.collect(Collectors.toList());
+			sortedContacts.forEach(x -> System.out.println(x));
+			break;
+		case 2:
+			sortedContacts = allContacts.stream().sorted((x, y) -> x.getCity().compareTo(y.getCity()))
+					.collect(Collectors.toList());
+			sortedContacts.forEach(x -> System.out.println(x));
+			break;
+		case 3:
+			sortedContacts = allContacts.stream().sorted((x, y) -> x.getState().compareTo(y.getState()))
+					.collect(Collectors.toList());
+			sortedContacts.forEach(x -> System.out.println(x));
+			break;
+		case 4:
+			sortedContacts = allContacts.stream().sorted((x, y) -> Integer.compare(x.getzip(), y.getzip()))
+					.collect(Collectors.toList());
+			sortedContacts.forEach(x -> System.out.println(x));
+			break;
+		case 5:
+			break;
+		default:
+			sortContact1();
+			break;
+		}
+	}
+
+	List<ContactPerson> getAllContacts() {
+		List<ContactPerson> allContacts = new ArrayList<>();
+		for (String key : AllAddresssBookLIst.keySet()) {
+			allContacts.addAll(AllAddresssBookLIst.get(key));
+		}
+		return allContacts;
+	}
+
 }
