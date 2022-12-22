@@ -1,0 +1,36 @@
+package com.brigelabz;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class FileIOServices {
+// Giving The Path......./////
+	private static final String FILE_PATH = "C:\\Users\\ALL IS WELL\\Documents\\eclips ide\\JavaProgrammes\\src\\com\\brigelabz\\contact.txt";
+
+//Writing the data INTO aFile.......//
+	public void writeData() {
+		try {
+			FileWriter fileWriter = new FileWriter(FILE_PATH);
+			fileWriter.write(String.valueOf(AddressBook.AllAddresssBookLIst));
+			fileWriter.close();// close the writer
+
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+//With try Catch Block.......//
+	public void readData() {
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH));
+			String store;
+			while ((store = reader.readLine()) != null) {
+				System.out.println(store);
+			}
+		} catch (IOException ex) {
+			throw new RuntimeException(ex);
+		}
+	}
+
+}
